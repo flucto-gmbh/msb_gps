@@ -4,6 +4,8 @@ import logging
 import sys
 import gps
 import json
+import time
+import uptime
 
 try:
     from config import init
@@ -40,16 +42,21 @@ def main():
             # Do stuff
             report = gpsd_socket.next().__dict__
             if report['class'] == 'TPV':
-                
-                if config['print']: print(json.dumps(report))
 
-                zmq_socket.send_pyobj(report)
+                data = {
+                    'gps' : [time.time(), uptime.uptime(), report]
+                }                
+
+                if config['print']: print(json.dumps(data))
+
+                zmq_socket.send_pyobj(data)
 
     except StopIteration:
         logging.fatal("GPSD has terminated")
 
     except KeyboardInterrupt:
         logging.info('goodbye')
+        sys.exit(0)
 
 
 if __name__ == '__main__':
