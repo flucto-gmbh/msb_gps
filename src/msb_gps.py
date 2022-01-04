@@ -22,7 +22,7 @@ def main():
         logging.fatal('failed to connect to gpsd')
         sys.exit(-1)
 
-    connect_to = f'{config["ipc_protocol"]}:///tmp/msb:{config["ipc_port"]}'
+    connect_to = f'{config["ipc_protocol"]}:{config["ipc_port"]}'
     logging.debug(f'binding to {connect_to} for zeroMQ IPC')
     ctx = zmq.Context()
     zmq_socket = ctx.socket(zmq.PUB)
