@@ -7,6 +7,7 @@ import logging
 from datetime import datetime
 from os import path
 
+GPS_TOPIC = "gps".encode('utf-8')
 
 def signal_handler_exit(sig, frame):
     print('* msb_gps: bye')

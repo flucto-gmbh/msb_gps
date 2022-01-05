@@ -1,16 +1,31 @@
 import logging
 import zmq
-import logging
 import sys
-import gps
 import json
 import time
 import uptime
+import pickle
+
+from os import path
+
+# add /usr/local/lib/python3/dist-packages to the system path
+GPS_DIR = '/usr/local/lib/python3/dist-packages/'
+
+if not path.isdir(path.join(GPS_DIR, 'gps')):
+    raise Exception(f'no such file or directory: {GPS_DIR/gps}')
+
+sys.path.append(path.dirname(GPS_DIR))
 
 try:
-    from config import init
+    import gps
+except ImportError as e:
+    raise Exception('failed to import gps module')
+    sys.exit(-1)
+
+try:
+    from gps_config import (init, GPS_TOPIC)
 except ImportError:
-    logging.fatal('failed to import init method')
+    raise Exception('failed to import init method')
     sys.exit(-1)
 
 def main():
@@ -43,13 +58,19 @@ def main():
             report = gpsd_socket.next().__dict__
             if report['class'] == 'TPV':
 
-                data = {
-                    'gps' : [time.time(), uptime.uptime(), report]
-                }                
+                data = [time.time(), uptime.uptime(), report]          
 
-                if config['print']: print(json.dumps(data))
-
-                zmq_socket.send_pyobj(data)
+                if config['print']: print(f'{data}')
+                
+                zmq_socket.send_multipart(
+                    [
+                        GPS_TOPIC,
+                        pickle.dumps(
+                            data
+                        )
+                    ]
+                )
+                # zmq_socket.send_pyobj(data)
 
     except StopIteration:
         logging.fatal("GPSD has terminated")
