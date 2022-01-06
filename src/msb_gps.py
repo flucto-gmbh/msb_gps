@@ -1,10 +1,9 @@
 import logging
 import zmq
 import sys
-import json
-import time
 import uptime
 import pickle
+from datetime import datetime
 
 from os import path
 
@@ -58,7 +57,7 @@ def main():
             report = gpsd_socket.next().__dict__
             if report['class'] == 'TPV':
 
-                data = [time.time(), uptime.uptime(), report]          
+                data = [datetime.utcnow().timestamp(), uptime.uptime(), report]          
 
                 if config['print']: print(f'{data}')
                 
