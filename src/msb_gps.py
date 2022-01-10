@@ -59,6 +59,7 @@ def main():
             if report['class'] == 'TPV':
 
                 if not 'lat' in report:
+                    logging.warning('no gps fix available')
                     report['lat'] = report['lon'] = report['alt'] = 0
 
                 data = [time.time(), uptime.uptime(), report]          
