@@ -22,7 +22,7 @@ def gen_gps_message():
           "class": "TPV",
           "device": "/dev/ttyACM0",
           "mode": 1,
-          "timestamp" : datetime.utcnow().isoformat(),
+          "timestamp" : time.time(),
           "leapseconds": 18,
           "lat" : 8.66645,
           "lon" : 53.5555,

@@ -57,6 +57,10 @@ def main():
             report = gpsd_socket.next().__dict__
             if report['class'] == 'TPV':
 
+                if not report['lat']:
+                    print(f'no fix!')
+                    report['lat'] = report['lon'] = report['alt'] = 0
+
                 data = [datetime.utcnow().timestamp(), uptime.uptime(), report]          
 
                 if config['print']: print(f'{data}')
