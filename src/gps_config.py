@@ -72,7 +72,8 @@ def parse_arguments() -> dict:
         '--logfile',
         help='path to logfile',
         type=str,
-        default=f'/tmp/msb_gps_{datetime.now().astimezone().strftime("%Y-%m-%dT%H-%M-%S%z")}.log',
+        # default=f'/tmp/msb_gps_{datetime.now().astimezone().strftime("%Y-%m-%dT%H-%M-%S%z")}.log',
+        default='',
     )
 
     arg_parser.add_argument(
@@ -113,7 +114,7 @@ def init() -> dict:
 
     logging.basicConfig(
         filename=config['logfile'],
-        level=config['verbose'] if logging.DEBUG else logging.WARNING,
+        level=logging.DEBUG if config['verbose'] else logging.WARNING,
         format='%(levelname)s: %(asctime)s %(message)s',
         datefmt='%Y%m%dT%H%M%S%z',
     )
