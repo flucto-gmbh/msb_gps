@@ -57,7 +57,7 @@ def main():
             report = gpsd_socket.next().__dict__
             if report['class'] == 'TPV':
 
-                if not report['lat']:
+                if not hasattr(report, 'lat'):
                     print(f'no fix!')
                     report['lat'] = report['lon'] = report['alt'] = 0
 
