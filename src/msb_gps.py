@@ -57,8 +57,7 @@ def main():
             report = gpsd_socket.next().__dict__
             if report['class'] == 'TPV':
 
-                if not hasattr(report, 'lat'):
-                    print(f'no fix!')
+                if not 'lat' in report:
                     report['lat'] = report['lon'] = report['alt'] = 0
 
                 data = [datetime.utcnow().timestamp(), uptime.uptime(), report]          
