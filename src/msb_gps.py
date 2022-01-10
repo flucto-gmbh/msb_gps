@@ -3,7 +3,7 @@ import zmq
 import sys
 import uptime
 import pickle
-from datetime import datetime
+import time
 
 from os import path
 
@@ -60,7 +60,7 @@ def main():
                 if not 'lat' in report:
                     report['lat'] = report['lon'] = report['alt'] = 0
 
-                data = [datetime.utcnow().timestamp(), uptime.uptime(), report]          
+                data = [time.time(), uptime.uptime(), report]          
 
                 if config['print']: print(f'{data}')
                 

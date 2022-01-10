@@ -16,7 +16,7 @@ except ImportError:
 
 def gen_gps_message():
     return [ 
-        datetime.utcnow().timestamp(),
+        time.time(),
         uptime.uptime(),
         {
           "class": "TPV",
