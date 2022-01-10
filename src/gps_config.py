@@ -119,7 +119,7 @@ def init() -> dict:
         datefmt='%Y%m%dT%H%M%S%z',
     )
 
-    logging.debug('msb_imu.py parsing of configuration done')
+    logging.debug('msb_gps.py parsing of configuration done')
 
     if config['config_file']:
         logging.debug('parsing config file')

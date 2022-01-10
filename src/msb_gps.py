@@ -25,16 +25,17 @@ try:
     from gps_config import (init, GPS_TOPIC)
 except ImportError:
     raise Exception('failed to import init method')
-    sys.exit(-1)
 
 def main():
     config = init()
 
+    logging.debug(f'connceting to gpsd socket')
     try:
         gpsd_socket = gps.gps(mode=gps.WATCH_ENABLE)
     except Exception as e:
         logging.fatal('failed to connect to gpsd')
         sys.exit(-1)
+    logging.debug(f'connected to gpsd socket')
 
     connect_to = f'{config["ipc_protocol"]}:{config["ipc_port"]}'
     logging.debug(f'binding to {connect_to} for zeroMQ IPC')
